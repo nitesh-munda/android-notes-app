@@ -8,11 +8,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".login.NotesApplication"
         android:theme="@style/Theme.NotesApp">
-        <activity android:name=".login.NotesAppActivity" />
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".login.view.NotesAppActivity" />
+        <activity android:name=".login.view.LoginActivity">
         </activity>
-        <activity android:name=".login.SplashActivity">
+        <activity android:name=".login.view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

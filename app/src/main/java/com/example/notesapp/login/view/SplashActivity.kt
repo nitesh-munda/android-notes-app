@@ -1,4 +1,4 @@
-package com.example.notesapp.login
+package com.example.notesapp.login.view
 
 import android.content.Context
 import android.content.Intent
