@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">NotesApp</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="full_name">FULL NAME</string>
+    <string name="username">USERNAME</string>
+    <string name="login">LOGIN</string>
+    <string name="something">something</string>
+    <string name="heading">Heading</string>
+    <string name="submit">SUBMIT</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+</resources>
