@@ -1,9 +1,11 @@
 package com.example.notesapp.login.view
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.R
@@ -11,6 +13,8 @@ import com.example.notesapp.databinding.ActivityMainBinding
 import com.example.notesapp.login.NotesApplication
 import com.example.notesapp.login.view.recyclerview.RVAdapter
 import com.example.notesapp.login.appConstants.AppConstants.Companion.FULL_NAME
+import com.example.notesapp.login.appConstants.AppConstants.Companion.NOTES_DESC
+import com.example.notesapp.login.appConstants.AppConstants.Companion.NOTES_TITLE
 import com.example.notesapp.login.data.Notes
 import com.example.notesapp.login.db.NotesRow
 import com.example.notesapp.login.view.recyclerview.NotesClickListener
@@ -24,6 +28,10 @@ class NotesAppActivity : AppCompatActivity(), NotesClickListener {
 
     private val rvAdapter = RVAdapter(this)
 
+    companion object {
+        const val OPEN_DETAILS_PAGE = 2
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -33,6 +41,27 @@ class NotesAppActivity : AppCompatActivity(), NotesClickListener {
         setupRecyclerView(list)
         setupActionBar()
         setupFab()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            OPEN_DETAILS_PAGE -> {
+                if (resultCode == RESULT_OK) {
+                    val title = data?.extras?.get(NOTES_TITLE) as? String ?: ""
+                    val desc = data?.extras?.get(NOTES_DESC) as? String ?: ""
+                    val notes = Notes(
+                        id = System.currentTimeMillis().toInt(),
+                        title = title,
+                        description = desc,
+                        isTaskDone = false
+                    )
+                    rvAdapter.updateData(notes)
+                    addNotesToDB(notes)
+                }
+            }
+        }
+
     }
 
     private fun fetchFromDatabase() : List<NotesRow>{
@@ -59,29 +88,13 @@ class NotesAppActivity : AppCompatActivity(), NotesClickListener {
 
     private fun setupFab() {
         binding.fabButton.setOnClickListener {
-            setupDialog()
+            openNotesDetailsPage()
         }
     }
 
-    private fun setupDialog() {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_notes, null)
-        val editTextHeading = dialogView.findViewById<TextInputEditText>(R.id.et_heading)
-        val editTextDescription = dialogView.findViewById<TextInputEditText>(R.id.et_description)
-        val button = dialogView.findViewById<MaterialButton>(R.id.buttonLayout)
-        val dialog = AlertDialog.Builder(this).setView(dialogView).setCancelable(true).create()
-        dialog?.show()
-
-        button.setOnClickListener {
-            val notes = Notes(
-                id = System.currentTimeMillis().toInt(),
-                title = editTextHeading.text.toString(),
-                description = editTextDescription.text.toString(),
-                isTaskDone = false
-            )
-            rvAdapter.updateData(notes)
-            addNotesToDB(notes)
-            dialog?.hide()
-        }
+    private fun openNotesDetailsPage() {
+        val intent = Intent(this, NotesDetailsActivity::class.java)
+        ActivityCompat.startActivityForResult(this, intent, OPEN_DETAILS_PAGE, null)
     }
 
     private fun addNotesToDB(notes: Notes) {

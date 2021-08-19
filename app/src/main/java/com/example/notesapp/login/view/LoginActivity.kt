@@ -48,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
                 intent.putExtra(FULL_NAME, name)
                 intent.putExtra(USER_NAME, username)
                 startActivity(intent)
+                finish()
             }
         }
     }

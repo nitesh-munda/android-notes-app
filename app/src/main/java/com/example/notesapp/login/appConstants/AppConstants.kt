@@ -6,5 +6,7 @@ class AppConstants {
         const val USER_NAME = "USER_NAME"
         const val IS_LOGGED_IN = "IS_LOGGED_IN"
         const val SHARED_PREF = "NOTES_APP"
+        const val NOTES_TITLE = "NOTES_TITLE"
+        const val NOTES_DESC = "NOTES_DESC"
     }
 }
