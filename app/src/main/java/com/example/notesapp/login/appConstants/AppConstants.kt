@@ -8,5 +8,6 @@ class AppConstants {
         const val SHARED_PREF = "NOTES_APP"
         const val NOTES_TITLE = "NOTES_TITLE"
         const val NOTES_DESC = "NOTES_DESC"
+        const val CHANNEL_ID = "notes_app"
     }
 }
